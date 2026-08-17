@@ -50,8 +50,8 @@ export class ShellService {
   }
   get kind(): string { return this.provider?.kind ?? 'none' }
   async run(req: ShellRequest): Promise<ShellResult> {
-    if (!this.provider) throw new Error('SHELL_UNAVAILABLE: 没有注册任何 provider')
-    return this.provider.run(this.provider.resolve(req))
+    // TODO(ch13): 按 spec 跑一条命令。两个 provider 各自实现，消费者不知道区别
+    throw new Error('TODO(ch13): 未实现 — 见书中对应小节，或 git checkout ch13-done')
   }
 }
 
