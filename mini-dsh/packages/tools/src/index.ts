@@ -15,11 +15,9 @@ export interface ToolDefinition {
 }
 
 export interface ToolExecution {
-  callId: string
-  name: string
-  args: unknown
-  signal?: AbortSignal
-}
+    // TODO(ch10): pre-execute → 单调守卫 → execute(around) → 工具体 → post-execute
+    throw new Error('TODO(ch10): 未实现 — 见书中对应小节，或 git checkout ch10-done')
+  }
 
 export interface ToolResult {
   callId: string
@@ -80,13 +78,8 @@ export class ToolsService {
    * 真 dsh 的 executionMode()（tools/src/index.ts:1276）是同样的判定。
    */
   executionMode(exec: ToolExecution): ExecutionMode {
-    const def = this.defs.get(exec.name)
-    if (!def?.isConcurrencySafe) return 'exclusive'
-    try {
-      return def.isConcurrencySafe(exec.args) === true ? 'parallel' : 'exclusive'
-    } catch {
-      return 'exclusive'
-    }
+    // TODO(ch10): fail-closed：只有精确返回 true 才算可并发
+    throw new Error('TODO(ch10): 未实现 — 见书中对应小节，或 git checkout ch10-done')
   }
 
   /**
@@ -143,24 +136,8 @@ export class ToolsService {
    * 历史顺序一旦不确定，回放、重试重建、缓存前缀全部一起崩。
    */
   async executeBatch(calls: ToolExecution[], maxParallel = 4): Promise<ToolResult[]> {
-    const results = new Array<ToolResult>(calls.length)
-    let i = 0
-    while (i < calls.length) {
-      if (this.executionMode(calls[i]) === 'exclusive') {
-        // 独占的自己跑，形成一道 barrier
-        results[i] = await this.execute(calls[i])
-        i++
-        continue
-      }
-      // 收集一段连续的可并发调用
-      const batch: number[] = []
-      while (i < calls.length && this.executionMode(calls[i]) === 'parallel' && batch.length < maxParallel) {
-        batch.push(i); i++
-      }
-      const settled = await Promise.all(batch.map((k) => this.execute(calls[k])))
-      batch.forEach((k, n) => { results[k] = settled[n] })
-    }
-    return results
+    // TODO(ch10): 派发可以重叠，但结果必须按模型给的顺序落位
+    throw new Error('TODO(ch10): 未实现 — 见书中对应小节，或 git checkout ch10-done')
   }
 }
 
