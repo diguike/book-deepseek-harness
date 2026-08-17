@@ -99,11 +99,8 @@ export class LlmService {
    * （packages/llm/llm/src/index.ts:232），不支持流式的后端接不上。
    */
   async stream(options: GenerateOptions): Promise<AsyncIterable<StreamChunk>> {
-    return this.ctx.waterfall<AsyncIterable<StreamChunk>>('llm/stream', [options], async () => {
-      const adapter = this.adapters.get(options.provider)
-      if (!adapter) throw new Error(`UNKNOWN_PROVIDER: ${options.provider}`)
-      return prime(adapter.stream(options))
-    })
+    // TODO(ch08): 穿过 llm/stream 这条 waterfall，最里层才落到真适配器上，并且要预热
+    throw new Error('TODO(ch08): 未实现 — 见书中对应小节，或 git checkout ch08-done')
   }
 }
 
@@ -120,24 +117,14 @@ export class LlmService {
  * 接缝层面的终止，而不是让它从迭代器里漏出去。
  */
 async function prime(inner: AsyncIterable<StreamChunk>): Promise<AsyncIterable<StreamChunk>> {
-  const it = inner[Symbol.asyncIterator]()
-  const first = await it.next()          // ← 异常在这里抛，还在 waterfall 里
-  return (async function* () {
-    if (first.done) return
-    yield first.value
-    while (true) {
-      const n = await it.next()
-      if (n.done) return
-      yield n.value
-    }
-  })()
+  // TODO(ch08): 先把第一个片段拉出来再接回去。为什么必须这么做见 8.4 节
+  throw new Error('TODO(ch08): 未实现 — 见书中对应小节，或 git checkout ch08-done')
 }
 
 /** 把流折成一条完整的助手消息。主循环用它。 */
 export async function collect(stream: AsyncIterable<StreamChunk>): Promise<{
-  text: string
-  calls: { callId: string; name: string; args: unknown }[]
-  usage?: Usage
+  // TODO(ch08): 把流折成 { text, calls, usage }
+  throw new Error('TODO(ch08): 未实现 — 见书中对应小节，或 git checkout ch08-done')
 }> {
   let text = ''
   const calls: { callId: string; name: string; args: unknown }[] = []
