@@ -36,17 +36,8 @@ export class Registry {
    * 所有消费者的 epoch 跟着变，于是它们被整体重启。
    */
   provide(name: string, value: unknown, providerUid: number): Disposer {
-    if (this.impls.has(name)) {
-      throw new Error(`service "${name}" already provided`)
-    }
-    this.impls.set(name, { name, value, providerUid })
-    this.notify()
-    return () => {
-      const current = this.impls.get(name)
-      if (current?.providerUid !== providerUid) return
-      this.impls.delete(name)
-      this.notify()
-    }
+    // TODO(ch05): 存进注册表，然后把 disposer 交给当前 fiber 保管
+    throw new Error('TODO(ch05): 未实现 — 见书中对应小节，或 git checkout ch05-done')
   }
 
   /** 通知每个 fiber 重新算一遍它的依赖指纹。 */

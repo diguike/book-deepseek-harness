@@ -63,10 +63,8 @@ export class Fiber {
    * 真 dsh 的 `_getState()`（fiber.ts:574）是同样三行判断。
    */
   private computeState(): FiberState {
-    if (this.uid === null) return FiberState.DISPOSED
-    if (this.error !== undefined) return FiberState.FAILED
-    if (this.epoch !== INACTIVE) return FiberState.ACTIVE
-    return FiberState.PENDING
+    // TODO(ch05): 三行判断，由 uid / error / epoch 推导出状态。顺序有讲究
+    throw new Error('TODO(ch05): 未实现 — 见书中对应小节，或 git checkout ch05-done')
   }
 
   private setState(next?: FiberState): void {
@@ -81,37 +79,14 @@ export class Fiber {
    * 任何服务的增删改都会触发它。对照真 dsh 的 `_refresh()`（fiber.ts:611）。
    */
   refresh(): void {
-    const inject = this.plugin.inject ?? []
-    let epoch: string | typeof INACTIVE = ''
-    for (const name of inject) {
-      const impl = this.root.registry.get(name)
-      if (!impl) {
-        // 缺一个就不启动。没有「部分可用」这种状态。
-        epoch = INACTIVE
-        break
-      }
-      this.store[name] = impl.providerUid
-      epoch += ':' + impl.providerUid
-    }
-    this.setEpoch(epoch)
+    // TODO(ch05): 扫一遍 inject，把每个被注入服务的**提供者 uid** 串成 epoch；缺任何一个就是 INACTIVE
+    throw new Error('TODO(ch05): 未实现 — 见书中对应小节，或 git checkout ch05-done')
   }
 
   /** epoch 变了才动。没变说明依赖还是原来那批人，不用重启。 */
   private setEpoch(next: string | typeof INACTIVE): void {
-    const prev = this.epoch
-    if (next === prev) return
-    this.epoch = next
-
-    // 已经有一次加载/卸载在跑，让它跑完再说。真 cordis 在这里做了更细的重入处理。
-    if (this.inertia) return
-
-    if (next !== INACTIVE && prev === INACTIVE) {
-      this.setState(FiberState.LOADING)
-      this.run(() => this.load())
-    } else {
-      this.setState(FiberState.UNLOADING)
-      this.run(() => this.unload())
-    }
+    // TODO(ch05): epoch 没变就不动；INACTIVE→有值 = 加载，其余变化 = 卸载
+    throw new Error('TODO(ch05): 未实现 — 见书中对应小节，或 git checkout ch05-done')
   }
 
   /**
