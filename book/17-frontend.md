@@ -222,3 +222,9 @@ interface ProjectionDefinition<K, S> {
 第四部分结束。
 
 最后一部分讲这本书真正想留给你的东西：**dsh 团队怎么维护一个 50 万行、人和 agent 共同参与的代码库**，以及那套方法里哪些你明天就能用。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

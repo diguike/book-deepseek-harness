@@ -2,13 +2,14 @@
 
 | 项 | 值 |
 |---|---|
-| 采集日期 | 2026-08-15 |
+| 采集日期 | 2026-08-15 初采；**2026-08-17 用干净的两文件目录重采**（本表 headless 任务相关数字均为重采值） |
 | dsh 版本 | `@deepseek-ai/dsh@0.1.0-rc.6`（npm latest） |
 | 源码基准 | GitHub `master` @ `47f94385`，其 package.json 声明 `0.1.0-rc.5` |
 | OS | Ubuntu 20.04.6 LTS |
 | Node | v24.14.0 |
 | 编译器 | 默认 g++ 9.4.0（**装不上**），需 `CC=gcc-10 CXX=g++-10` |
-| 模型后端 | **DeepSeek 官方端点**（`deepseek-v4-flash`），2026-08-17 补测 |
+| 模型后端 | **DeepSeek 官方端点**（`deepseek-v4-flash`） |
+| 任务目录 | `demo-project/`，只有 `math.js` 和 `package.json` 两个文件 |
 
 ## 实测数字
 
@@ -25,13 +26,14 @@
 | 首页字节数 | 12,109 B | `curl -w '%{size_download}'` |
 | 前端 client 插件数 | 38 | 数首页 `/plugins/*/client.js` |
 | headless 暴露工具数 | 25 | 数录制请求里的 `tools[]` |
-| system prompt | 4,132 B | 录制请求 `systemBytes` |
-| 工具 schema | 27,438 B | 录制请求 `toolSchemaBytes` |
-| 一次任务事件数 | 38 | 解压 session.jsonl 后 `wc -l` |
-| 会话日志压缩比 | 71,602 B → 23,211 B（10 个 zstd 帧） | — |
-| 端到端耗时 | 4.46 秒 | `/usr/bin/time` |
-| step 1 用量 | in=11,258 out=43 cacheRead=0 | 会话日志 `assistant/message.usage` |
-| step 2 用量 | in=58 out=43 **cacheRead=11,264** | 同上 |
+| system prompt | 4,138 B | 会话日志 `request/header.system` 的 UTF-8 字节数 |
+| 工具 schema | 26,288 B | 会话日志 `request/header.tools` 序列化后的字节数（旧版记的 27,438 B 是 mock 端点上 OpenAI 线格式的大小，口径不同） |
+| 一次任务日志行数 | 43 行（1 行会话头 + 42 行事件） | 逐帧解 zstd 后 `wc -l` |
+| 事件序号上限 | seq 121 | 流式 chunk 折叠成 `*-chunks` 行写盘，故行数 < 序号数 |
+| 会话日志压缩比 | 72,975 B → 24,226 B（14 个 zstd 帧） | — |
+| 端到端耗时 | 4.89 秒 | `/usr/bin/time` |
+| step 1 用量 | in=11,250 out=82 cacheRead=0 | 会话日志 `assistant/message.usage`（seq 70） |
+| step 2 用量 | in=85 out=39 **cacheRead=11,264** | 同上（seq 119） |
 
 ## 诚实声明
 

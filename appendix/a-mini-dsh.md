@@ -179,3 +179,9 @@ cd mini-dsh/packages/shell && node tests/latency.mjs    # 结果存 assets/ch13/
 | `assets/ch13/latency.json` | 本地 vs 容器延迟，12 次采样 |
 
 **你机器上的数字会不一样**，尤其是启动时间和内存。重要的是量级和比例。
+
+---
+
+> 本附录来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

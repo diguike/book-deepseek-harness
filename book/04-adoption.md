@@ -161,3 +161,9 @@ flowchart TD
 第一部分到此结束。你现在知道 dsh 长什么样、它怎么想、代价是什么、该不该上。
 
 从下一章开始换一种读法：不再是看它，而是**动手写一个**。第二部分用 TypeScript 从零重建 dsh 的骨架，六章下来能跑通一个真实任务。目的不是造轮子——是把第 3 章那六条取舍，从道理变成手感。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

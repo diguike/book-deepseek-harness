@@ -238,3 +238,9 @@ Ralph 是"一串新 agent"，`goal` 是另一条路——**同一个会话里推
 ---
 
 下一章讲第四部分最后一块：**前端也是插件**，以及那个把它推到极致的能力——agent 在活着的进程里给自己写一个插件挂上去。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

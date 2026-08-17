@@ -243,7 +243,7 @@ ctx.plugin({
 
 给 Java / Go 读者一个类比：**这就是 try-with-resources 和 `defer`**，只不过作用域不是函数栈，是插件的生命周期。
 
-## 6.6 这一章解锁了什么
+## 6.6 没有干净的卸载，就没有「换掉主循环」
 
 回头看第 3 章那六个取舍，第一条是「没有特权内核」。现在能说清它为什么可能了：
 
@@ -258,3 +258,9 @@ ctx.plugin({
 现在树有了，拦截有了。下一章开始装真东西：**会话日志**。
 
 那是全书最重要的一条不变量所在——第 1 章那三条"我没说过的话"，第 3 章那条"日志是源不是产物"，都要在下一章落到代码上。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

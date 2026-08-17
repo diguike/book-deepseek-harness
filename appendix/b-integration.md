@@ -80,3 +80,9 @@ dsh 有五种"从外面接进来"的方式。这份表帮你选。
 ```
 
 进程模型的选择、凭证怎么换、审计怎么落、12 项上线检查表，全在第 18 章。
+
+---
+
+> 本附录来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

@@ -239,3 +239,9 @@ export type FiberState = (typeof FiberState)[keyof typeof FiberState]
 原因是"剥离"模式只删类型注解，不做代码转换——而参数属性和 enum 都需要生成运行时代码。
 
 **mini-dsh 全程遵守这两条，所以它零依赖，`node --test` 直接跑。**
+
+---
+
+> 本附录来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

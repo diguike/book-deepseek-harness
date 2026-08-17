@@ -57,7 +57,7 @@ verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-16"
 
 理想情况是：稳定的东西全排在前面，变动的东西只往后追加。这样每次请求的公共前缀都比上次更长，缓存越用越划算。
 
-一旦有人往 system prompt 里塞了一个会变的东西——比如当前时间、当前工作目录、当前权限模式——整个前缀从那个位置起全部失效。第 1 章测到的数字里，主链路每次请求带 4,132 字节 system prompt 加 27,438 字节工具 schema，这 31 KB 如果因为一个字段变了而重算，代价相当可观。
+一旦有人往 system prompt 里塞了一个会变的东西——比如当前时间、当前工作目录、当前权限模式——整个前缀从那个位置起全部失效。第 1 章测到的数字里，主链路每次请求带 4,138 字节 system prompt 加 26,288 字节工具 schema，这 30 KB 如果因为一个字段变了而重算，代价相当可观。
 
 DeepSeek 自己踩过这个坑，而且量化了：他们本来把沙箱权限模式写在 system prompt 里，用户切一次权限，缓存命中就从一万四千多 token 掉到 **256 token**。修法不是优化文案，是把这段内容整个挪出 system prompt，挪到消息序列的末尾去。
 
@@ -159,3 +159,9 @@ flowchart LR
 Claude Code 和 Codex 选了前者，主路径的正确性握在自己手里，用户在预留的洞上挂东西。dsh 选了后者，四个答案全是配置树上的行。
 
 这不是谁对谁错，是两种成本结构。下一章把这笔账算清楚。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

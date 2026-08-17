@@ -233,7 +233,7 @@ return new Proxy(this, {
 })
 ```
 
-十行。真 dsh 的 `reflect.ts` 是 **418 行**，多出来的部分在处理调用链追踪、隔离域、跨 realm 的品牌检查——那些是生产环境要的，理解机制不需要。
+十行。真 dsh 的 `reflect.ts` 是 **418 行**，多出来的部分在处理调用链追踪、隔离域、跨 realm（JS 领域，附录 C.2 区分了它的两种用法）的品牌检查——那些是生产环境要的，理解机制不需要。
 
 TypeScript 那边靠**声明合并**把这些属性补上类型：
 
@@ -320,3 +320,9 @@ pending(): { name: string; missing: string[] }[] {
 但它还太弱：插件之间只能通过服务互相调用，没法互相拦截。dsh 里那些「在工具执行前插一脚」「改写模型看到的消息」的能力，靠的是另一套东西——类型化事件，以及它的四种分发方式。
 
 下一章写它，顺便把这一章埋的那个数学理由补上：**为什么卸载必须逆序。**
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

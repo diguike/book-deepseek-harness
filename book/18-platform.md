@@ -217,3 +217,9 @@ is usable on this host; refusing to run the command unconfined.
 ---
 
 平台搭起来了。最后三章讲另一件事：**dsh 团队自己是怎么维护这个代码库的**，以及那套方法里哪些你明天就能用。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

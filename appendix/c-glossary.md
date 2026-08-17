@@ -8,7 +8,7 @@ verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-16"
 > **译法说明**：本表**对齐官方 `docs/glossary.zh.md`**，不另立标准。官方那份经过双语配对流水线校对，另搞一套的后果是你照书学完、去 Discussions 提问时用的词跟所有人都对不上。
 > 本表在官方基础上补三样：官方没译的词、容易误解的词的澄清、以及**不建议翻译**的词。
 
-## C.1 最容易认错的六个词
+## C.1 最容易认错的七个词
 
 | 词 | dsh 里的意思 | 容易误解成 | 建议 |
 |---|---|---|---|
@@ -17,6 +17,7 @@ verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-16"
 | **effect** | 一次带逆元的注册：做一件事，同时交出撤销它的方法 | effect system / 代数效应；或者"副作用" | 译「可逆注册」。**不译"副作用"**。（配套论文用的词是 revertible，不是 reversible） |
 | **capability** | 一个能力／子系统 | capability-based security 的 capability（不可伪造引用即权限） | 译「能力」。dsh 的 `ctx.<key>` 是按名查表的环境权威，和 ocap 正相反 |
 | **invariant** | 运行时监视器，检查权威事件流或可变数据 | Hoare 逻辑那种静态验证过的不变式 | 译「运行时不变式」，**说清是监控不是证明** |
+| **bundle** | 一个只装配置不装可执行逻辑的 npm 包：内容是一份 `cordis.patch.yml`，若干个插件行 | webpack/Rollup 那种打包产物；或 OSGi 的 bundle（那个是带代码和生命周期的模块） | **不译**。它是配置合成的最底两层，见第 1 章 1.6 节和第 12 章 |
 | **surface** | 日志里会进入模型请求的那部分事件 | API 表面（dsh 文档里也在这个通用义上用过这个词） | 译「模型可见面」，全书统一 |
 
 **seam 是唯一一个用得完全正确、又值得认领来历的词**：出自 Michael Feathers《修改代码的艺术》(2004)——"a seam is a place where you can alter behavior in your program without editing in that place"。中文「接缝」是既定译法。
@@ -120,3 +121,9 @@ dsh plugin --profile web add <包名>             # 装插件（转发给 pnpm�
 ```
 
 `$DSH_HOME` 默认 `~/.dsh`，里面四样东西：`profiles/`、`cordis.patch.yml`、`.env`、`.credentials.yaml`。
+
+---
+
+> 本附录来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

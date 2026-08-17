@@ -11,7 +11,7 @@ verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-15"
 
 后来陆续还想加别的：换掉默认的上下文压缩策略、让工具执行走远程沙箱、在对话里插一个自己的卡片。这些都不是挂个 hook 能解决的。它们要动主路径，而主路径不对外开放。
 
-DeepSeek Harness 给了另一个答案。下面把它装上，让它干一件事，然后看它在磁盘上留下了什么。
+DeepSeek Harness 给了另一个答案（命令行叫 `dsh`，下文都这么写）。下面把它装上，让它干一件事，然后看它在磁盘上留下了什么。
 
 ---
 
@@ -25,11 +25,13 @@ npx @deepseek-ai/dsh web
 
 Claude Code 和 Codex 都是终端工具，dsh 不是。它有终端形态，但那是另一个 profile，得单独启。默认形态是浏览器。
 
+profile 是一份启动配置，决定这次启动出来的是哪种产品形态。1.6 节会把它拆开看。
+
 > **装不上的话**：dsh 依赖 `node-pty`，要编译。Ubuntu 20.04 默认的 g++ 是 9.4，不认 `-std=gnu++20`，直接报错。装个 GCC 10 就好：`CC=gcc-10 CXX=g++-10 npm i @deepseek-ai/dsh`。全程 4 分钟，532 个包。
 >
 > 另外 npm 上的 `latest` 是 `0.1.0-rc.6`，而 GitHub `master` 上那个 commit 写的是 `0.1.0-rc.5`——rc.5 从没发布过。你装到的比你能读到的源码新一小时。本书的行号都基于 `47f94385`，运行结果都基于 rc.6。
 
-## 1.2 一句话的任务，日志里记了 35 件事
+## 1.2 一句话的任务，磁盘上落下 43 行日志
 
 准备一个两文件的目录：
 
@@ -39,7 +41,7 @@ demo-project/
   package.json
 ```
 
-跑一句话：
+跑一句话（`headless` 这个 profile 不起 Web 服务，跑完就退）：
 
 ```sh
 dsh --profile headless 「用 glob 工具列出当前目录的文件，然后直接回答文件名」
@@ -48,47 +50,56 @@ dsh --profile headless 「用 glob 工具列出当前目录的文件，然后直
 输出：
 
 ```
-math.js
-package.json
+当前目录下的文件有：
+
+- `math.js`
+- `package.json`
 ```
 
 答对了。不过更值得看的是它留下的记录。
 
-会话写在 `$DSH_HOME/sessions/` 下，按 workspace 路径分目录，文件叫 `session.jsonl.zstd`。
+会话写在 `$DSH_HOME/sessions/`（`$DSH_HOME` 默认 `~/.dsh`）下，按 workspace 路径分目录，文件叫 `session.jsonl.zstd`。
 
-这文件不能直接 `zstd -d` 解——解出来只有几百字节。它是**多个 zstd 帧首尾相接**的：日志只追加不重写，每次刷盘压一帧接在后面。想读全得逐帧解。我这次任务是 10 帧，压缩后 23,211 字节，展开 71,602 字节。
+这文件不能直接 `zstd -d` 解——解出来只有几百字节。它是**多个 zstd 帧首尾相接**的：日志只追加不重写，每次刷盘压一帧接在后面。想读全得逐帧解。我这次任务是 14 帧，压缩后 24,226 字节，展开 72,975 字节。
 
-展开是 38 行 JSON，一行一个事件：
+展开是 43 行 JSON——第一行是会话头，其余 42 行是事件：
 
 ```
-seq  事件                     内容
----  ----------------------  --------------------------------------
+seq  事件                       内容
+---  ------------------------  --------------------------------------
   0  permission/preset
   1  sandbox/mode
   2  approval/policy
-  ...
-  7  user/message            「用 glob 工具列出当前目录的文件...」
-  8  user/message            "Current runtime context..."
-  9  user/message            "<system-reminder>A skill..."
+  4  turn/start                turn=1
+  6  step/start                turn=1 step=1
+  7  user/message              「用 glob 工具列出当前目录的文件...」
+  8  user/message              "Current runtime context..."
+  9  user/message              "<system-reminder>A skill..."
+ 11  request/header            deepseek-v4-flash · 25 个工具
  13  session/title-llm-request
- 14  session/title           List Files with Glob Tool
-  ...
- 22  tool/call               glob
- 23  tool/result             isError=null
-  ...
- 33  turn/end                turn=1
+ 14  session/title             列出当前目录的文件名
+ 70  assistant/message         模型决定调 glob
+ 71  tool/call                 glob
+ 72  tool/result               isError=null
+ 73  step/end                  step=1
+ 74  step/start                turn=1 step=2
+119  assistant/message         给出答案
+120  step/end                  step=2
+121  turn/end                  turn=1 completed
 ```
 
-一个 turn，两个 step：第一个 step 模型决定调 `glob`，第二个 step 拿到结果给答案。整个任务 **4.46 秒**。
+表里只列骨架。**序号一路排到 121，但文件只有 43 行**——因为 dsh 把连续的流式 chunk 折叠成一行写盘：`tool-call-chunks`、`reasoning-chunks`、`text-chunks` 这三种行各自带一个起始序号 `seq0` 和一串时间差 `dt`，一行顶原来的几十条。完整产物见 [`assets/ch01/session-trace.jsonl`](../assets/ch01/session-trace.jsonl)。
 
-盯住那两条 `assistant/message` 的用量：
+表里出现了 dsh 的两个时间单位。**step 是一次模型请求，加上这次响应引发的工具执行；turn 是把一次输入排空的全过程，里面含一到多个 step。** 这次任务就是一个 turn、两个 step：step 1 模型决定调 `glob`（seq 6 到 73），step 2 拿到工具结果给出答案（seq 74 到 120）。整个任务 **4.89 秒**。第 2 章 2.6 节会把这两个单位和 round 放在一起讲清楚，这里按字面理解就够。
 
-- 第一个 step：`in=11258 cacheRead=0` —— 冷启动，11,258 个 token 全部重算
-- 第二个 step：`in=58 cacheRead=11264` —— **11,264 个 token 命中缓存，只有 58 个是新的**
+盯住 seq 70 和 seq 119 那两条 `assistant/message` 的 `usage` 字段：
 
-第二次请求带着第一次的全部内容（系统提示、25 个工具的 schema、消息、工具结果），几乎原样命中。**这就是前缀缓存在正常工作时的样子**，第 11 章会把它拆开算账。
+- step 1：`inputTokens=11250`、`cacheReadTokens=0` —— 冷启动，11,250 个 token 全部重算
+- step 2：`inputTokens=85`、`cacheReadTokens=11264` —— **11,264 个 token 命中缓存，只有 85 个是新的**
 
-完整的 38 个事件按参与方摊开是这样——括号里是这一跳落在哪个包：
+第二次请求带着第一次的全部内容（系统提示、25 个工具的 schema、消息、工具结果），几乎原样命中。**前缀缓存匹配的是请求开头那一段字节：没变的部分服务端不必重算，按缓存价计费。** 这就是它正常工作时的样子，第 11 章会把它拆开算账。
+
+完整的 42 个事件按参与方摊开是这样——括号里是这一跳落在哪个包：
 
 ```mermaid
 sequenceDiagram
@@ -108,7 +119,7 @@ sequenceDiagram
     D->>S: user/message ×3
     Note over D,S: 用户 1 条，插件注入 2 条
     D->>P: 装配 system prompt + 25 个工具 schema
-    P-->>D: 4,132 B + 27,438 B
+    P-->>D: 4,138 B + 26,288 B
     D->>S: request/header
     D->>L: 流式请求
     L-->>S: assistant/chunk* → assistant/message (cacheRead=0)
@@ -137,11 +148,11 @@ dsh 把这条规矩写成一句话：**model-visible ⟺ logged**。凡是模型
 
 顺着这条规矩回头看，日志开头那三条也讲得通了。`permission/preset`、`sandbox/mode`、`approval/policy` 排在 seq 0、1、2，比我的第一句话还早。这次会话被允许做什么，是先记账再执行。
 
-seq 13、14 更能说明问题。那是一次和主任务无关的模型调用——给会话生成标题，标题从截取首句的「用 glob 工具列出当前目录的文」变成了「List Files with Glob Tool」。这么一件边角小事，同样在日志里留两条记录。
+seq 13、14 更能说明问题。那是一次和主任务无关的模型调用——给会话生成标题，标题从截取首句的「用 glob 工具列出当前目录的文」变成了「列出当前目录的文件名」。这么一件边角小事，同样在日志里留两条记录。
 
 这两次调用发出去的东西差别很大：生成标题那次只带了 363 字节的 system prompt，**一个工具都没带**；主链路每次都带满 25 个工具。同一个模型服务，两种用法，都归同一份日志管。
 
-## 1.4 主循环也只是配置里的一行
+## 1.4 129 行配置里，主循环占一行
 
 一个插件凭什么能往会话日志里写东西？在别的 agent 工具里，会话日志是产品内部的实现细节。
 
@@ -152,6 +163,8 @@ dsh --profile web --dump-config
 ```
 
 它什么都不启动，只把这台机器上将要启动的那棵插件树打印出来。我这里 490 行 YAML、129 个插件行，跑完 0.26 秒。
+
+打印出来是一份平铺的清单，一行一个插件。之所以还叫它「树」，是因为插件之间有父子关系——第 5 章会看到这层结构。
 
 前 12 行：
 
@@ -170,6 +183,8 @@ dsh --profile web --dump-config
 - id: llm
   name: '@deepseek-ai/dsh-llm'
 ```
+
+先说一个后面会反复出现的名字：`cordis-` 开头的包不是 DeepSeek 写的，它们来自 dsh 底下那个插件框架 **Cordis**（第 3 章 3.6 节交代来历和代价）。等下要改的 `cordis.patch.yml`，文件名也是从它来的。
 
 `# ==` 开头的注释是 dump 自己加的，标的是下面这段行来自哪个文件、被哪些层改过。第 4 行那句说明了两件事：`hmr` 这一行是 `dsh-base` 放进来的，`dsh-web-app` 又改了一次，改成 `disabled: true`。Web 形态下热重载是关掉的。
 
@@ -225,7 +240,9 @@ dsh --profile web --dump-config
 
 ## 1.5 四行 YAML 换掉整个模型接入
 
-光看不算数。在 `$DSH_HOME/cordis.patch.yml` 里写四行：
+光看不算数。先说清楚 patch 在 dsh 里是什么：**它不是 diff 补丁，是「按 id 覆盖某一行」**——不用管上下文，写清楚要盖哪一行、盖成什么样就行。
+
+在 `$DSH_HOME/cordis.patch.yml` 里写四行：
 
 ```yaml
 - id: agent-default-model
@@ -282,9 +299,9 @@ dsh --profile web --dump-config
 
 > 本书的运行数据分两类：**标了 via mock 的**来自那个假端点（后端是 Claude，模型行为不代表 DeepSeek）；**没标的**来自 DeepSeek 官方端点，包括本章这次任务和第 11 章的全部缓存实验。凡是涉及缓存命中的数字，一律只用官方端点的。
 
-## 1.6 web、headless、acp 是同一棵树的三种叠法
+## 1.6 web 和 headless 差的只是第二层 bundle
 
-前面用了两个 profile：`web` 和 `headless`。还有第三个 `acp`，给编辑器集成用。
+前面用了两个 profile：`web` 和 `headless`。还有第三个 `acp`（Agent Client Protocol，给编辑器集成用）。
 
 它们不是三个程序。profile 就是 `$DSH_HOME/profiles/<名字>/` 下的一个目录，里面只有两个文件。`web` 的 manifest 全文：
 
@@ -299,19 +316,21 @@ dsh --profile web --dump-config
 }
 ```
 
-两层 bundle。`dsh-base` 是所有 profile 的第一层，模型、工具、持久化、沙箱、审批策略都在里面，451 行。`dsh-web-app` 在它上面加浏览器应用，顺手关掉 `hmr`，424 行。
+两层 bundle。**bundle 是一个 npm 包，但里面装的不是可执行代码，而是一份 `cordis.patch.yml`——若干个插件行**。profile 的 `bundles` 数组按声明顺序把它们逐层叠起来，叠出来的就是那棵树的地基。
+
+`dsh-base` 是所有 profile 的第一层，模型、工具、持久化、沙箱、审批策略都在里面，451 行。`dsh-web-app` 在它上面加浏览器应用，顺手关掉 `hmr`，424 行。
 
 `headless` 的第二层换成 `dsh-headless`，只有 35 行，出来就是个没有服务器的一次性执行器。
 
 ```mermaid
 flowchart TB
-    E[「空 entry list」]
-    B1[「@deepseek-ai/dsh-base　451 行<br/>模型 / 工具 / 持久化 / 沙箱 / 审批」]
-    B2[「第二层 bundle<br/>web-app 424 行 · headless 35 行」]
-    P1[「profiles/&lt;名字&gt;/cordis.patch.yml」]
-    P2["$DSH_HOME/cordis.patch.yml"]
-    P3[「--patch 覆盖层」]
-    R[「129 行插件树」]
+    E["「空列表　0 个插件行」"]
+    B1["「@deepseek-ai/dsh-base　451 行<br/>模型 / 工具 / 持久化 / 沙箱 / 审批」"]
+    B2["「第二层 bundle<br/>web-app 424 行 · headless 35 行」"]
+    P1["「profiles/&lt;名字&gt;/cordis.patch.yml」"]
+    P2["「$DSH_HOME/cordis.patch.yml」"]
+    P3["「--patch 覆盖层」"]
+    R["「129 行插件树」"]
     E --> B1 --> B2 --> P1 --> P2 --> P3 --> R
     style B1 fill:#e8f0fe
     style B2 fill:#e8f0fe
@@ -319,13 +338,13 @@ flowchart TB
     style R fill:#e6f4ea
 ```
 
-**图 1-2：三层合成**（1.5 节改的是橙色那一层）
+**图 1-2：四层合成**（bundle 层可以有多个；1.5 节改的是橙色那一层）
 
 把 `dsh-web-app` 从那个数组里删掉，Web UI 就没了，别的照常。「产品形态由配置决定」在这里不是比喻。
 
 `--dump-config` 用的是和真正启动完全相同的那个合成函数，所以它打印的树不可能和实际启动的树不一致。
 
-## 1.7 一百二十九行里，三十二行是前端
+## 1.7 129 行里，有 32 行跑在浏览器里
 
 回到浏览器，看网页源码，搜 `__DSH_BOOT__`：
 
@@ -369,4 +388,6 @@ window.__DSH_BOOT__ = {
 
 ---
 
-**本章数字**：采集于 2026-08-15，Ubuntu 20.04.6 / Node v24.14.0 / `@deepseek-ai/dsh@0.1.0-rc.6`，模型后端是 mock。每个数字的采集命令列在 [`assets/ch01/environment.md`](../assets/ch01/environment.md)，原始产物在 [`assets/ch01/`](../assets/ch01/)。你机器上的数字会不一样，重要的是量级。
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

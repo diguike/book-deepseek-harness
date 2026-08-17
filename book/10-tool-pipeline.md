@@ -10,7 +10,7 @@ verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-16"
 
 第 9 章为了跑通流程，工具执行那一段是一笔带过的。这一章把它拆开。
 
-官方 `docs/cookbook/adding-a-tool.md` 只有 94 行，但把参数校验、执行身份保护、Code Mode、UI 渲染意图这些契约细节都写全了。**那些不重复**，正文直接引用。这一章讲三件官方 cookbook 不讲的事：三段瀑布各自的位置为什么这么定、守卫为什么不给 allow 这个返回值、以及模型会犯的四类错各有哪道防线。
+官方 `docs/cookbook/adding-a-tool.md` 只有 94 行，但把参数校验、执行身份保护、Code Mode（`run_code`，让模型写一段程序批量调工具）、UI 渲染意图这些契约细节都写全了。**那些不重复**，正文直接引用。这一章讲三件官方 cookbook 不讲的事：三段瀑布各自的位置为什么这么定、守卫为什么不给 allow 这个返回值、以及模型会犯的四类错各有哪道防线。
 
 ## 10.1 一次工具调用要过五道关
 
@@ -232,3 +232,9 @@ dsh 对模型的四类典型错误各有一道防线，都是独立插件：
 第二部分还剩最后一章。前面九章讲的都是"怎么组织代码"，下一章讲一件不一样的事——**这套架构在账单上的代价**。
 
 那一章有 DeepSeek 自己量出来的数字：一次权限切换，让缓存命中从一万四千多 token 掉到 256。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

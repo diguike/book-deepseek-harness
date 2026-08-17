@@ -109,3 +109,9 @@ Node.js 22.19+ 或 24+，一个能跑 `npm install` 的环境。dsh 依赖 `node
 如果你正卡在「我想改的那个环节碰不到」这件事上，这本书讲的是另一种可能：**把每一个环节都做成一行配置，包括主循环本身。**
 
 代价是什么，第 3 章会算清楚。
+
+---
+
+> 本书前言来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

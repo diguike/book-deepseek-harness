@@ -426,3 +426,9 @@ const out = redact(settled?.content ?? result?.content, rules)
 第三部分结束。你现在能给真 dsh 写一个能上线的插件，也知道升级来了怎么扛。
 
 第四部分转向精读：真 dsh 在上下文治理、子 agent、前端插件这三块多做了什么。**那一部分是本书的易腐区**，每章开头都会标验证日期。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

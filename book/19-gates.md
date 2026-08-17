@@ -24,6 +24,8 @@ dsh 是一个 50 万行的代码库，由人和 agent 共同维护。它的工�
 | docs 324 篇双语 | **英文 110 + 中文 105**（324 含 `.i18n.yaml`） | 同上 |
 | 生成器会校验 `@mode` 一致性 | **不会**，原文是 "can check" | 把情态动词升级成断言 |
 
+（**Agent Notes** 是 dsh 每个包里留给 agent 的交接笔记，20.3 节细说。）
+
 **准确的说法是：33 条约定，约一半由 26 个门禁强制，其余靠 review 和 skill。**
 
 这个更弱的说法一点不损伤论点，反而让本章的真问题浮出来了：**剩下那一半为什么不能机器化？**
@@ -276,3 +278,9 @@ if (failures.length) {
 ---
 
 下一章讲另外半套：**文档怎么做到不会和代码脱节，以及一套让 prompt 改动无处遁形的回归测试。**
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

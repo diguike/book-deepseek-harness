@@ -213,3 +213,9 @@ dsh 的防护是一条**进展保证**，在源码里就一句判断（`packages
 上下文治理讲完了。下一章讲 dsh 一个别处没有的能力：**把 Claude Code 和 Codex 当成子 agent 挂进来。**
 
 对正在做选型的人，那一章的结论比技术细节更重要——它意味着你可以先不换底座。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

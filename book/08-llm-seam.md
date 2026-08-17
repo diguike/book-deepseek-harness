@@ -245,3 +245,9 @@ export function callConfigEquals(a: CallConfig, b: CallConfig): boolean {
 树有了、日志有了、模型接入有了。下一章把它们串起来：**主循环**。
 
 那是全书代码最少、决策最密的一章——真 dsh 的 `agent-loop` 只有 1,643 行，mini 版 250 行就能跑通一个完整任务。差出来的 1,400 行在防什么，也在那一章讲清楚。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

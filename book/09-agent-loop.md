@@ -265,7 +265,7 @@ async executeBatch(calls: ToolExecution[], maxParallel = 4): Promise<ToolResult[
 
 这也是这本书对「读源码」的态度——**先用 250 行看清骨架，再回头问那 1,400 行在防什么**，比一头扎进 1,643 行有效得多。
 
-## 9.8 跑通了
+## 9.8 mini 跑出来的事件序列，和第 1 章那次真任务同构
 
 到这里 mini-dsh 能完成一个真实任务：
 
@@ -289,3 +289,9 @@ test('一个 turn 两个 step：模型先调工具，拿到结果再作答', asy
 ---
 
 下一章不加新功能，只把工具执行那一段拆开细看：三段瀑布各能干什么、单调守卫为什么不给 allow 这个返回值、模型会犯的四类错各有哪道防线。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

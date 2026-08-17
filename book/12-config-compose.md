@@ -295,3 +295,9 @@ export function assertEntriesActivated(ctx: Context): void {
 ---
 
 配置合成讲完了。下一章是全书最强的那个演示：**换两个 provider，把 Bash、PTY、LSP 整体搬到另一个执行环境，而工具代码一行不改。**
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

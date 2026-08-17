@@ -28,6 +28,8 @@ verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-16"
 | **前端能不能扩展** | 不开放 | 不开放 | 不开放 | **前端也是插件，129 行里占 32 行** |
 | **配置模型** | settings.json 多层深合并 | config.toml + profile | 配置文件 | **bundle → profile → home → --patch，整体替换** |
 
+表里有两个词先记个大概：**三段瀑布**指工具执行前、执行、执行后三个都能挂拦截的位置；**单调守卫**是其中一道只能拒绝、不能放行的关。两个都在第 10 章展开。
+
 这九行差异的根源是同一件事——扩展点摆在哪儿（图 3-1）。
 
 ```mermaid
@@ -225,3 +227,9 @@ flowchart LR
 到这里你知道了 dsh 是怎么想的，也知道了代价。还差一个问题：**你的团队该不该上。**
 
 那是一个和技术判断不同的问题，答案取决于你们有多少人、能承受多大的锁定风险、以及——今天的 dsh 到底能不能给一个团队用。下一章有三条硬事实要摊开讲。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

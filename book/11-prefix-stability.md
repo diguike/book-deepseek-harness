@@ -31,7 +31,7 @@ verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-16"
 
 理论就这些。下面看它在真实请求上是什么量级。
 
-## 11.2 十个变量，一张表
+## 11.2 同一个请求改十个地方，各作废多少缓存
 
 DeepSeek 的响应里直接带缓存字段：
 
@@ -275,3 +275,9 @@ flowchart TB
 第二部分到此结束。你手里有一个能跑的 harness 骨架，也知道了它在账单上的成本结构。
 
 第三部分回到真 dsh：配置怎么合成、能力接缝怎么换掉整个执行世界，以及——**怎么写一个能真正发布上线的插件**。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

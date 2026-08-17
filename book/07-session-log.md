@@ -32,7 +32,7 @@ dsh 的会话是同一个结构：
 
 多数 agent 工具的日志是"跑的时候顺手写一行，方便事后看"——那是**产物**。dsh 反过来，日志是**源**。
 
-## 7.2 事件长什么样
+## 7.2 想给模型加一句话，得先加一个事件类型
 
 ```ts
 export type SessionEvent = EventEnvelope & (
@@ -273,3 +273,9 @@ dsh 有现成接缝，`session-telemetry` 加 `session-telemetry-otel`，是标�
 ---
 
 日志有了。下一章接模型：请求怎么拼出来、流式怎么处理，以及一个第 11 章会算成钱的东西——**为什么请求配置的变动要单独记一条快照，而不是让它静默漂移。**
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

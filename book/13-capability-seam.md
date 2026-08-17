@@ -273,3 +273,9 @@ Seatbelt 的 profile 设计也有教学价值：**allow-default 加 `(deny file-
 接缝讲完了。下一章是第三部分的落点，也是这本书对"能上线"这个承诺的兑现：**给真 dsh 写一个插件，从需求走到 npm 发布。**
 
 那一章全程不碰 mini-dsh。
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

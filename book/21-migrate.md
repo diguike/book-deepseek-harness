@@ -198,7 +198,7 @@ quadrantChart
 
 **先问清楚你的项目里哪些东西真的会变。** 会变的那几处做成接缝，其余的写死。这比"全部做成插件"务实得多——而 dsh 之所以全部做成插件，是因为它是一个 harness，它的整个价值主张就是"每个部件都可能被别人换掉"。**你的项目大概率不是。**
 
-## 21.7 最后
+## 21.7 你能改的东西，取决于别人把边界画在哪
 
 这本书从一个改不动的 hook 开始。
 
@@ -217,3 +217,9 @@ quadrantChart
 *全书完。*
 
 *配套代码在 `mini-dsh/`、`examples/`、`extensions/`，实测数据和采集命令在 `assets/`。勘误维护在仓库 `ERRATA.md`。*
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)

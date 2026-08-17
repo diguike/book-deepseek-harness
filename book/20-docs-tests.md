@@ -283,3 +283,9 @@ flowchart TB
 ---
 
 工程方法讲完了。最后一章回到你自己：**这套东西里哪些能搬走，按团队规模怎么裁，以及什么时候不该学 dsh。**
+
+---
+
+> 本章来自《一切皆插件》开源版 · 作者「递归客」  
+> 在线阅读完整书系：[inferloop.dev](https://inferloop.dev)  
+> 源码仓库：[github.com/diguike/book-deepseek-harness](https://github.com/diguike/book-deepseek-harness)
