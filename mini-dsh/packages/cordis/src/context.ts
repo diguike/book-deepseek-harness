@@ -188,11 +188,8 @@ export class Context {
    * - setup 同步抛异常时要回滚它已经做的部分
    */
   effect(setup: () => Disposer): Disposer {
-    if (this.fiber?.state === FiberState.UNLOADING) {
-      throw new Error('INACTIVE_EFFECT: 不能在卸载过程中创建新的 effect')
-    }
-    const dispose = setup()
-    return this.own(dispose)
+    // TODO(ch06): 跑 setup，把它交出的 disposer 登记到当前 fiber。UNLOADING 期间要拒绝
+    throw new Error('TODO(ch06): 未实现 — 见书中对应小节，或 git checkout ch06-done')
   }
 
   /** 等整棵树里所有 fiber 都不再变动。测试和启动断言用。 */

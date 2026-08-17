@@ -83,11 +83,8 @@ export class Events {
 
   /** 按顺序跑，第一个返回非 undefined 的就停下并把它作为结果。 */
   async bail<T>(event: string, ...args: any[]): Promise<T | undefined> {
-    for (const l of this.listeners(event)) {
-      const result = await l(...args)
-      if (result !== undefined) return result as T
-    }
-    return undefined
+    // TODO(ch06): 按顺序跑，第一个返回非 undefined 的就停下并把它作为结果
+    throw new Error('TODO(ch06): 未实现 — 见书中对应小节，或 git checkout ch06-done')
   }
 
   /**
@@ -100,13 +97,8 @@ export class Events {
    * 是 fold；这里是 around 中间件，语义相反。中文别译成「瀑布」。
    */
   async waterfall<T>(event: string, args: any[], final: () => T | Promise<T>): Promise<T> {
-    const chain = this.listeners(event)
-    const step = async (i: number): Promise<T> => {
-      if (i >= chain.length) return final()
-      const next = () => step(i + 1)
-      return await chain[i](...args, next)
-    }
-    return step(0)
+    // TODO(ch06): 递归闭包：把「下一层」包成 next 传给监听器，它决定调不调。走到底执行 final
+    throw new Error('TODO(ch06): 未实现 — 见书中对应小节，或 git checkout ch06-done')
   }
 
   private emitError(err: unknown): void {

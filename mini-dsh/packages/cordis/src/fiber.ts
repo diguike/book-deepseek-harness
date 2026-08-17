@@ -147,17 +147,8 @@ export class Fiber {
    * 它的逆就是 e₁⁻¹∘…∘eₙ⁻¹。第 6 章展开。
    */
   private async unload(): Promise<void> {
-    // 先把列表取空，防止 disposer 执行过程中又有人往里塞。
-    const pending = this.disposers.splice(0).reverse()
-    for (const dispose of pending) {
-      try {
-        await dispose()
-      } catch (err) {
-        this.root.emit('internal/error', err)
-      }
-    }
-    this.error = undefined
-    this.setState()
+    // TODO(ch06): 逆序执行所有 disposer。为什么逆序见第 6.4 节
+    throw new Error('TODO(ch06): 未实现 — 见书中对应小节，或 git checkout ch06-done')
   }
 
   /** 彻底移除这个 fiber。之后它不会再被任何 refresh 唤醒。 */
