@@ -59,7 +59,8 @@ export class Session {
    * 再把 surface 上的事件转成消息。
    */
   deriveMessages(): Message[] {
-    return surfaceOf(this.log).map(toMessage)
+    // TODO(ch07): 先折出 surface，再把 surface 上的事件转成消息
+    throw new Error('TODO(ch07): 未实现 — 见书中对应小节，或 git checkout ch07-done')
   }
 
   /**
@@ -68,20 +69,8 @@ export class Session {
    * 难的不是复制，是判断哪些位置能切——见 6.x 节。
    */
   fork(newId: string, boundary?: number): Session {
-    const cut = boundary ?? (this.log.length ? this.log[this.log.length - 1].seq : -1)
-    let t = emptyTrace()
-    const prefix: SessionEvent[] = []
-    for (const e of this.log) {
-      if (e.seq > cut) break
-      t = validateEvent(t, e)
-      prefix.push(e)
-    }
-    if (!isForkable(t)) {
-      throw new Error(`OPEN_TURN: 不能切在一个没关闭的 turn 中间（turn ${t.openTurn} 还开着）`)
-    }
-    const child = new Session(newId)
-    for (const e of prefix) child.append(e.type as any, e.data as any, { ignorable: e.ignorable })
-    return child
+    // TODO(ch07): 取前缀重放，但要先判断这个前缀合不合法
+    throw new Error('TODO(ch07): 未实现 — 见书中对应小节，或 git checkout ch07-done')
   }
 
   /** 从一份原始日志重建会话。不认识的事件类型会让整份日志作废。 */
@@ -105,17 +94,8 @@ export class Session {
  * surface 上 [start, end) 这一段位置换成它自己——压缩的摘要就这么落地。
  */
 export function surfaceOf(log: readonly SessionEvent[]): SessionEvent[] {
-  const surface: SessionEvent[] = []
-  for (const e of log) {
-    if (!SURFACE_TYPES.has(e.type)) continue
-    const op = e.type === 'user/message' ? e.data.surfaceOp : undefined
-    if (op?.op === 'replace') {
-      surface.splice(op.start, op.end - op.start, e)
-    } else {
-      surface.push(e)
-    }
-  }
-  return surface
+  // TODO(ch07): 只留 SURFACE_TYPES；遇到 surfaceOp:replace 就 splice 掉那一段
+  throw new Error('TODO(ch07): 未实现 — 见书中对应小节，或 git checkout ch07-done')
 }
 
 function toMessage(e: SessionEvent): Message {
