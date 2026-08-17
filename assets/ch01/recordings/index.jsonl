@@ -1,0 +1,3 @@
+{"n":"0001","at":"2026-08-15T10:06:17.558Z","model":"mock-sonnet","stream":true,"messages":4,"tools":25,"systemBytes":4132,"toolSchemaBytes":27438,"totalBytes":48056}
+{"n":"0002","at":"2026-08-15T10:06:17.566Z","model":"mock-sonnet","stream":true,"messages":2,"tools":0,"systemBytes":363,"toolSchemaBytes":2,"totalBytes":745}
+{"n":"0003","at":"2026-08-15T10:06:27.630Z","model":"mock-sonnet","stream":true,"messages":6,"tools":25,"systemBytes":4132,"toolSchemaBytes":27438,"totalBytes":48298}

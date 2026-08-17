@@ -1,0 +1,8 @@
+{"n":"0001","at":"2026-08-15T10:00:51.582Z","model":"mock-sonnet","stream":true,"messages":4,"tools":25,"systemBytes":4132,"toolSchemaBytes":27438,"totalBytes":48053}
+{"n":"0002","at":"2026-08-15T10:00:51.587Z","model":"mock-sonnet","stream":true,"messages":2,"tools":0,"systemBytes":363,"toolSchemaBytes":2,"totalBytes":742}
+{"n":"0003","at":"2026-08-15T10:01:06.330Z","model":"mock-sonnet","stream":true,"messages":6,"tools":25,"systemBytes":4132,"toolSchemaBytes":27438,"totalBytes":48691}
+{"n":"0004","at":"2026-08-15T10:01:36.968Z","model":"mock-sonnet","stream":true,"messages":8,"tools":25,"systemBytes":4132,"toolSchemaBytes":27438,"totalBytes":49329}
+{"n":"0005","at":"2026-08-15T10:01:59.746Z","model":"mock-sonnet","stream":true,"messages":11,"tools":25,"systemBytes":4132,"toolSchemaBytes":27438,"totalBytes":50232}
+{"n":"0006","at":"2026-08-15T10:02:16.671Z","model":"mock-sonnet","stream":true,"messages":13,"tools":25,"systemBytes":4132,"toolSchemaBytes":27438,"totalBytes":50474}
+{"n":"0007","at":"2026-08-15T10:03:29.968Z","model":"mock-sonnet","stream":true,"messages":12,"tools":25,"systemBytes":4132,"toolSchemaBytes":27438,"totalBytes":52102}
+{"n":"0008","at":"2026-08-15T10:03:54.521Z","model":"mock-sonnet","stream":true,"messages":4,"tools":25,"systemBytes":4132,"toolSchemaBytes":27438,"totalBytes":36001}

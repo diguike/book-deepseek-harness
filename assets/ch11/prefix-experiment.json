@@ -1,0 +1,82 @@
+{
+  "model": "deepseek-v4-flash",
+  "measuredAt": "2026-08-17",
+  "method": "每个变体独立 salt；先捂热该支基线，再测改动后的第一次请求",
+  "baseline": {
+    "hit": 7296,
+    "miss": 88,
+    "prompt": 7384
+  },
+  "results": [
+    {
+      "variant": "A  什么都不改",
+      "hit": 7296,
+      "miss": 90,
+      "prompt": 7386,
+      "hitRate": 98.8
+    },
+    {
+      "variant": "B  末尾追加一条消息",
+      "hit": 7296,
+      "miss": 94,
+      "prompt": 7390,
+      "hitRate": 98.7
+    },
+    {
+      "variant": "C  system **末尾**加一行",
+      "hit": 0,
+      "miss": 7394,
+      "prompt": 7394,
+      "hitRate": 0.0
+    },
+    {
+      "variant": "D  system **开头**插一行",
+      "hit": 0,
+      "miss": 7394,
+      "prompt": 7394,
+      "hitRate": 0.0
+    },
+    {
+      "variant": "E  工具加在**最末尾**",
+      "hit": 1408,
+      "miss": 6279,
+      "prompt": 7687,
+      "hitRate": 18.3
+    },
+    {
+      "variant": "F  工具加在**正中间**",
+      "hit": 0,
+      "miss": 7687,
+      "prompt": 7687,
+      "hitRate": 0.0
+    },
+    {
+      "variant": "G  工具加在**最前面**",
+      "hit": 0,
+      "miss": 7687,
+      "prompt": 7687,
+      "hitRate": 0.0
+    },
+    {
+      "variant": "H  前两个工具**换位置**",
+      "hit": 0,
+      "miss": 7386,
+      "prompt": 7386,
+      "hitRate": 0.0
+    },
+    {
+      "variant": "I  改最后一个工具描述**一个字**",
+      "hit": 1280,
+      "miss": 6107,
+      "prompt": 7387,
+      "hitRate": 17.3
+    },
+    {
+      "variant": "J  换一个**模型**",
+      "hit": 0,
+      "miss": 7386,
+      "prompt": 7386,
+      "hitRate": 0.0
+    }
+  ]
+}

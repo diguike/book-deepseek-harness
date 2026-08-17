@@ -1,0 +1,23 @@
+{
+  "name": "dsh-plugin-audit-trail",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 插件：工具调用审计（带脱敏）+ 团队规约注入",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": { ".": "./src/index.js" },
+  "keywords": ["dsh-plugin", "deepseek-harness", "dsh", "audit", "redaction", "agent"],
+  "license": "MIT",
+  "author": "diguike",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diguike/book-deepseek-harness.git",
+    "directory": "extensions/dsh-plugin-audit"
+  },
+  "homepage": "https://github.com/diguike/book-deepseek-harness/tree/main/extensions/dsh-plugin-audit#readme",
+  "bugs": { "url": "https://github.com/diguike/book-deepseek-harness/issues" },
+  "engines": { "node": ">=22.6" },
+  "peerDependencies": { "@deepseek-ai/cordis": "*" },
+  "peerDependenciesMeta": { "@deepseek-ai/cordis": { "optional": true } },
+  "files": ["src", "README.md", "LICENSE"],
+  "scripts": { "test": "node --test tests/*.spec.js" }
+}

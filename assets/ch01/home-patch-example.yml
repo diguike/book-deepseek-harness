@@ -1,0 +1,22 @@
+# 把 dsh 指向本机 mock-llm-server（OpenAI 兼容端点，后端是 claude -p）
+# 两条 patch，都是 id 定位、整体替换 config
+
+- id: llm-pi-ai
+  config:
+    providers:
+      mock:
+        api: openai-completions
+        baseURL: http://127.0.0.1:3031/v1
+        apiKeyEnv: MOCK_API_KEY
+        models:
+          - id: mock-sonnet
+            contextWindow: 200000
+            maxTokens: 8192
+          - id: mock-haiku
+            contextWindow: 200000
+            maxTokens: 8192
+
+- id: agent-default-model
+  config:
+    provider: mock
+    model: mock-sonnet

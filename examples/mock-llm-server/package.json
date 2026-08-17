@@ -1,0 +1,10 @@
+{
+  "name": "dsh-mock-llm-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "把本机 claude -p 包成 OpenAI 兼容端点（含 SSE + 请求信封录制），让 dsh 免 API key 跑起来",
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}
