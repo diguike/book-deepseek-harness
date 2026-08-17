@@ -7,7 +7,7 @@
 
 ## 怎么提
 
-配套仓库开 Issue，标题带上章节号。如果是时效问题，附上你机器上的版本：
+在 [GitHub Issues](https://github.com/diguike/book-deepseek-harness/issues) 开 Issue，标题带上章节号。如果是时效问题，附上你机器上的版本：
 
 ```sh
 npm view @deepseek-ai/dsh version

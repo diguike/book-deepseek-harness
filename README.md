@@ -85,14 +85,27 @@ dsh 给了另一个答案：没有内核，所以没有洞，因为没有墙。
 - [附录 C　术语与速查表](appendix/c-glossary.md)
 - [附录 D　读这本书需要的 TypeScript](appendix/d-typescript.md)
 
-## 配套仓库
+## 配套代码
 
 ```
-mini-dsh/     手写的迷你实现，每章双 tag（chNN-start / chNN-done）+ TODO 骨架 + 自检脚本
-examples/     各章可独立运行的片段，含 mock-llm-server
-extensions/   第 14 章那个真发布到 npm 的插件
-assets/       各章原始实测产物：dump 全文、会话日志、请求录制、采集命令
+mini-dsh/     手写的迷你实现，2,655 行 TS，65 个测试。零依赖，Node 22.6+ 直接跑
+examples/     mock-llm-server：没有 API key 时把本机 claude CLI 包成 OpenAI 兼容端点
+extensions/   第 14 章那个真能装到 dsh 上的审计插件
+assets/       各章原始实测产物：dump 全文、会话日志、请求录制、实验数据、采集命令
 ```
+
+### 跟着写 mini-dsh
+
+八章各有两个 tag：
+
+```sh
+git checkout ch07-start          # 起点：函数体挖空，签名、JSDoc、测试都在
+cat mini-dsh/CHECKPOINT.md       # 这一章要填哪几个函数
+cd mini-dsh && node --test packages/session/tests/session.spec.ts   # 绿了就是对了
+git checkout ch07-done           # 卡住了看参考答案
+```
+
+**任何一章都能直接 checkout 开工**，不需要前面的自己写对。可用 tag：`ch05` `ch06` `ch07` `ch08` `ch09` `ch10` `ch12` `ch13`。
 
 ## 关于版本
 
