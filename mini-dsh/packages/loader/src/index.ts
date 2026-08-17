@@ -41,35 +41,8 @@ export interface ComposedEntry extends Entry {
  * "config tooling must never reimplement (and drift from) the patch algorithm"。
  */
 export function composeEntries(layers: Layer[], warn: (msg: string) => void = () => {}): ComposedEntry[] {
-  const out: ComposedEntry[] = []
-  for (const layer of layers) {
-    for (const patch of layer.patches) {
-      if (patch.insert) {
-        for (const e of patch.insert) {
-          if (out.some((x) => x.id === e.id)) {
-            throw new Error(`DUPLICATE_ID: 已经有一行 id 是 "${e.id}"`)
-          }
-          out.push({ ...e, provenance: { origin: layer.label, patchedBy: [] } })
-        }
-        continue
-      }
-      if (!patch.id) {
-        warn(`${layer.label}: 一条 patch 既没有 id 也没有 insert，忽略`)
-        continue
-      }
-      const target = out.find((x) => x.id === patch.id)
-      if (!target) {
-        // 定位不到只告警，不报错。真 dsh 也是这个行为。
-        warn(`${layer.label}: patch 指向的 id "${patch.id}" 在树里不存在`)
-        continue
-      }
-      // ★ 整体替换，不深合并。写了 config 就把整段换掉。
-      if ('config' in patch) target.config = patch.config
-      if ('disabled' in patch) target.disabled = patch.disabled
-      target.provenance.patchedBy.push(layer.label)
-    }
-  }
-  return out
+  // TODO(ch12): 按层叠加。patch 按 id 定位、**整体替换** config，不深合并
+  throw new Error('TODO(ch12): 未实现 — 见书中对应小节，或 git checkout ch12-done')
 }
 
 /**
@@ -78,27 +51,8 @@ export function composeEntries(layers: Layer[], warn: (msg: string) => void = ()
  * 用的是 composeEntries 的输出，所以它和真正启动的树不可能不一致。
  */
 export function renderDump(entries: ComposedEntry[]): string {
-  const lines: string[] = []
-  let lastTag = ''
-  for (const e of entries) {
-    const tag = e.provenance.patchedBy.length
-      ? `${e.provenance.origin}, patched by ${e.provenance.patchedBy.join(', ')}`
-      : e.provenance.origin
-    if (tag !== lastTag) {
-      lines.push(`# == ${tag}`)
-      lastTag = tag
-    }
-    lines.push(`- id: ${e.id}`)
-    lines.push(`  name: '${e.name}'`)
-    if (e.disabled) lines.push(`  disabled: true`)
-    if (e.config && Object.keys(e.config).length) {
-      lines.push(`  config:`)
-      for (const [k, v] of Object.entries(e.config)) {
-        lines.push(`    ${k}: ${JSON.stringify(v)}`)
-      }
-    }
-  }
-  return lines.join('\n')
+  // TODO(ch12): 渲染成带 # == 层来源注释的文本
+  throw new Error('TODO(ch12): 未实现 — 见书中对应小节，或 git checkout ch12-done')
 }
 
 /** 插件名 → 实现。真 dsh 靠 npm 包名解析，mini 版用一张表。 */
@@ -127,8 +81,6 @@ export function mount(ctx: Context, entries: ComposedEntry[], resolve: PluginRes
  * 「我的插件为什么没反应」的主要抓手。
  */
 export function assertEntriesActivated(ctx: Context): void {
-  const stuck = ctx.pending()
-  if (stuck.length === 0) return
-  const detail = stuck.map((s) => `  ${s.name} 缺 [${s.missing.join(', ')}]`).join('\n')
-  throw new Error(`STARTUP_INCOMPLETE: 有 ${stuck.length} 个插件没能激活\n${detail}`)
+  // TODO(ch12): 把卡在 PENDING 的插件连同它缺的服务一起报出来
+  throw new Error('TODO(ch12): 未实现 — 见书中对应小节，或 git checkout ch12-done')
 }
