@@ -5,7 +5,7 @@ last_synced: "2026-08-17"
 verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-16"
 ---
 
-> 本章形态：【必写】。写约 180 行，两到三小时。
+> 这一章要动手写代码：约 180 行，两到三小时。
 > 跳过的后果：第 6、9、12 章的代码都长在这上面，跳了后面看不懂 fiber 状态是怎么来的。
 > 起点 `git checkout ch05-start`，参考答案 `ch05-done`，自检 `pnpm verify:ch05`。
 

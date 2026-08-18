@@ -5,7 +5,7 @@ last_synced: "2026-08-17"
 verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-16"
 ---
 
-> 本章形态：【必写】。写约 140 行，两小时。
+> 这一章要动手写代码：约 140 行，两小时。
 > 跳过的后果：第 9 章主循环要用 `ctx.llm`，第 11 章整章建在 request header 上。
 > 起点 `ch08-start`，答案 `ch08-done`，自检 `pnpm verify:ch08`。
 

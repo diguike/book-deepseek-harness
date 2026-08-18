@@ -5,7 +5,7 @@ last_synced: "2026-08-17"
 verified_against: "@deepseek-ai/dsh@0.1.0-rc.6 / 源码 47f94385 / 2026-08-16"
 ---
 
-> 本章形态：【必写·实战】。**全章不碰 mini-dsh**，写的是能装到真 dsh 上的插件。
+> 这一章要动手，但**全章不碰 mini-dsh**——写的是能装到真 dsh 上的插件。
 > 成品在配套仓库 `extensions/dsh-plugin-audit/`，本章所有输出都是它真跑出来的。
 
 前言里那个需求：**每次 agent 改完文件，把 diff 发到群里**。在 Claude Code 里我只能挂一个 hook 进程。
